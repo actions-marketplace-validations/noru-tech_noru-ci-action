@@ -5,23 +5,24 @@
 > `scripts/publish_actions.py` on every release: do not edit it here, changes land upstream
 > and the next release overwrites this tree. Issues: https://github.com/noru-tech/noru-grc-engineering/issues
 >
-> `uses: noru-tech/noru-ci-action@v0.7.1` and
-> `uses: noru-tech/noru-grc-engineering/.github/actions/noru-ci@v0.7.1`
+> `uses: noru-tech/noru-ci-action@v0.7.2` and
+> `uses: noru-tech/noru-grc-engineering/.github/actions/noru-ci@v0.7.2`
 > are the same code at the same version. The toolkit the action runs (`scripts/`,
-> `plugins/`, `contract/`) is copied verbatim from that tag.
+> `plugins/`, `contract/`) is copied verbatim from that tag. `@v0`
+> follows the newest 0.x release.
 
 Runs one last-mile piece headless: `scan → validate → expiry`, and optionally `diff → push`.
 
 The default mode needs **no network and no credential**, so it works on a pull request from a fork.
 Full documentation, the exit-code table and the non-GitHub recipes are in
-[`docs/ci-mode.md`](https://github.com/noru-tech/noru-grc-engineering/blob/v0.7.1/docs/ci-mode.md).
+[`docs/ci-mode.md`](https://github.com/noru-tech/noru-grc-engineering/blob/v0.7.2/docs/ci-mode.md).
 
 ```yaml
-- uses: actions/checkout@v4
-- uses: actions/setup-node@v4
+- uses: actions/checkout@v5
+- uses: actions/setup-node@v5
   with:
     node-version: "20"
-- uses: noru-tech/noru-ci-action@v0.7.1
+- uses: noru-tech/noru-ci-action@v0
   with:
     piece: ai-inventory
     mode: warn      # switch to gate once the report is quiet
@@ -37,8 +38,11 @@ Two things fail the build, and both are computed locally:
 It installs nothing. `node` and `python3` must already be on the runner; the action fails with a
 clear message if either is missing, and prints which YAML loader the runner will use.
 
-On the GitHub Marketplace this action is `noru-tech/noru-ci-action`;
-`uses: noru-tech/noru-ci-action@v0.7.1` is the same code at the same tag as the path above.
+`@v0` follows the newest 0.x release, so a copied example never goes stale. To take changes only
+when you choose to, pin a release tag from
+[the releases page](https://github.com/noru-tech/noru-grc-engineering/releases) or a full commit
+SHA instead. `noru-tech/noru-ci-action@<tag>` — the path inside this
+repository — is the same code at the same tag; the Marketplace repository is generated from it.
 
 **Credentials.** Never pass a key as a `with:` input. Put it in the job or step `env:` from a
 secret — `NORU_API_KEY: ${{ secrets.NORU_API_KEY }}` — only in a job that has secrets, and only for
@@ -65,7 +69,7 @@ to inspect. Two ways to read a failing run:
   ```yaml
   - id: gate
     continue-on-error: true
-    uses: noru-tech/noru-ci-action@v0.7.1
+    uses: noru-tech/noru-ci-action@v0
     with: { piece: ai-inventory, repo: . }
   - if: steps.gate.outcome == 'failure'
     run: |
