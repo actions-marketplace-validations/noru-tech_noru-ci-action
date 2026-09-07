@@ -5,8 +5,8 @@
 > `scripts/publish_actions.py` on every release: do not edit it here, changes land upstream
 > and the next release overwrites this tree. Issues: https://github.com/noru-tech/noru-grc-engineering/issues
 >
-> `uses: noru-tech/noru-ci-action@v0.7.2` and
-> `uses: noru-tech/noru-grc-engineering/.github/actions/noru-ci@v0.7.2`
+> `uses: noru-tech/noru-ci-action@v0.7.3` and
+> `uses: noru-tech/noru-grc-engineering/.github/actions/noru-ci@v0.7.3`
 > are the same code at the same version. The toolkit the action runs (`scripts/`,
 > `plugins/`, `contract/`) is copied verbatim from that tag. `@v0`
 > follows the newest 0.x release.
@@ -15,7 +15,7 @@ Runs one last-mile piece headless: `scan → validate → expiry`, and optionall
 
 The default mode needs **no network and no credential**, so it works on a pull request from a fork.
 Full documentation, the exit-code table and the non-GitHub recipes are in
-[`docs/ci-mode.md`](https://github.com/noru-tech/noru-grc-engineering/blob/v0.7.2/docs/ci-mode.md).
+[`docs/ci-mode.md`](https://github.com/noru-tech/noru-grc-engineering/blob/v0.7.3/docs/ci-mode.md).
 
 ```yaml
 - uses: actions/checkout@v5
